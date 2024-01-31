@@ -40,7 +40,7 @@ namespace Blog.web.Controllers
         public async Task<IActionResult> List()
         {
             // use DbContext to read the tags
-            var tags = tagRepository.GetAllAsync();
+            var tags = await tagRepository.GetAllAsync();
             return View(tags);
         }
         [HttpGet]

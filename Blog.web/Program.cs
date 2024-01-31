@@ -16,6 +16,8 @@ namespace Blog.web
             options.UseSqlServer(builder.Configuration.GetConnectionString("BlogDbConnectionString")));
 
             builder.Services.AddScoped<Repositories.ITagRepository, TagRepository>();
+            builder.Services.AddScoped<Repositories.IBlogPostRepository, BlogPostRepository>();
+            builder.Services.AddScoped<Repositories.IImageRepository, CloudinaryImageRepository>();  
 
             var app = builder.Build();
 

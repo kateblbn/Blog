@@ -2,8 +2,9 @@
 
 namespace Blog.web.Models.ViewModel
 {
-    public class AddBlogPostRequest
+    public class EditBlogPostRequest
     {
+        public Guid Id { get; set; }
         public string Heading { get; set; }
         public string PageTitle { get; set; }
         public string Content { get; set; }
@@ -17,5 +18,6 @@ namespace Blog.web.Models.ViewModel
         //display tags
         public IEnumerable<SelectListItem> Tags { get; set; }
         public string[] SelectedTags { get; set; } = Array.Empty<string>();
+
     }
 }
