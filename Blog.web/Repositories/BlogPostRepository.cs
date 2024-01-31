@@ -1,6 +1,7 @@
 ﻿using Blog.web.Data;
 using Blog.web.Models.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Blog.web.Repositories
 {
@@ -41,6 +42,13 @@ namespace Blog.web.Repositories
         public async Task<BlogPost?> GetAsync(Guid id)
         {
             return await blogDbContext.BlogPosts.Include(x => x.Tags).FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<BlogPost?> GetByUrlHandleAsync(string urlHandle)
+        {
+            return await blogDbContext.BlogPosts.Include(x => x.Tags)
+                .FirstOrDefaultAsync(x => x.UrlHandle == urlHandle);
+            
         }
 
         public async Task<BlogPost?> UpdateAsync(BlogPost blogPost)
