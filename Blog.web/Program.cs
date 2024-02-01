@@ -1,5 +1,6 @@
 using Blog.web.Data;
 using Blog.web.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Blog.web
@@ -14,6 +15,9 @@ namespace Blog.web
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<BlogDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("BlogDbConnectionString")));
+
+            builder.Services.AddDbContext<AuthDbContext>(options => { options.UseSqlServer(builder.Configuration.GetConnectionString("BlogAuthConnectingString")); });
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AuthDbContext>();
 
             builder.Services.AddScoped<Repositories.ITagRepository, TagRepository>();
             builder.Services.AddScoped<Repositories.IBlogPostRepository, BlogPostRepository>();
@@ -34,6 +38,7 @@ namespace Blog.web
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
