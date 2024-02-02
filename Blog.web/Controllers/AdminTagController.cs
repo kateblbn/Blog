@@ -2,12 +2,14 @@
 using Blog.web.Models.Domain;
 using Blog.web.Models.ViewModel;
 using Blog.web.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata.Ecma335;
 
 namespace Blog.web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminTagController : Controller
     {
         private readonly ITagRepository tagRepository;
@@ -16,6 +18,8 @@ namespace Blog.web.Controllers
         {
             this.tagRepository = tagRepository;
         }
+
+        
         [HttpGet]
         public IActionResult Add()
         {
