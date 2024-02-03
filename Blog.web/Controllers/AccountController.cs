@@ -40,17 +40,27 @@ namespace Blog.web.Controllers
             }
             return View();
         }
+
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login(string ReturnUrl)
         {
-            return View();
+            var model = new LoginViewModel 
+            { 
+                ReturnUrl = ReturnUrl 
+            };
+            return View(model);
         }
+        [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel loginViewModel)
         {
            var signInResult = await signInManager.PasswordSignInAsync(loginViewModel.Username, 
                loginViewModel.Password, false, false);
             if (signInResult.Succeeded)
             {
+                if(!string.IsNullOrWhiteSpace(loginViewModel.ReturnUrl))
+                {
+                    return Redirect(loginViewModel.ReturnUrl);
+                }
                 return RedirectToAction("Index", "Home");
             }
             return View();
