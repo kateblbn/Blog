@@ -11,7 +11,7 @@
 <div class="container my-5">
     <div class="row justify-content-center">
         <div class="col-12 col-lg-6">
-            @if(Model != null)
+            @if (Model != null)
             {
                 <h1 class="mb-3">@Model.Heading</h1>
                 <div class="d-flex justify-content-between mb-3">
@@ -24,7 +24,7 @@
 
                     @if (signInManager.IsSignedIn(User))
                     {
-                        if(Model.Liked)
+                        if (Model.Liked)
                         {
                             <a style="cursor:pointer">
                                 <i class="bi bi-hand-thumbs-up-fill"></i>
@@ -48,10 +48,59 @@
                     }
 
                 </div>
-                <img src="@Model.FeaturedImageUrl" class="d-block img-fluid mb-3"/>
+                <img src="@Model.FeaturedImageUrl" class="d-block img-fluid mb-3" />
                 <div class="mb-3">
                     @Html.Raw(Model.Content)
                 </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Comments</h5>
+
+                        @if (signInManager.IsSignedIn(User))
+                        {
+                            <form method="post">
+                                <div class="mb-3">
+                                    <label class="form-label">Comment Description</label>
+                                    <input type="text" class="form-control" asp-for="CommentDescription" />
+                                </div>
+                                <div class="mb-3">
+                                    <button type="submit" class="btn btn-dark">Publicate</button>
+                                    <input type="hidden"  asp-for="Id"/>
+                                    <input type="hidden" asp-for="UrlHandle" />
+                                </div>
+
+                            </form>
+                        }
+                        else
+                        {
+                            <div class="mb-3 mt-3">
+                                <a asp-area="" asp-controller="Account" asp-action="Login">Login for leaving comments</a>
+                            </div>
+                        }
+                        <div class="card-body">
+                            @if (Model.Comments != null && Model.Comments.Any())
+                            {
+                                @foreach (var comment in Model.Comments)
+                                {
+                                    <div class="card mb-3">
+                                        <div class="card-body">
+                                            <div>
+                                                @comment.Description
+                                            </div>
+                                            <div class="text-secondary">@comment.Username</div>
+                                            <div class="text-secondary">@comment.AddedTime.ToShortDateString()</div>
+
+                                        </div>
+                                    </div>
+                                }
+                            }
+
+                        </div>
+                    </div>
+                </div>
+
+
             }
             else
             {
@@ -75,7 +124,7 @@
                     'Accept': '*/*'
                 }
             }).then(data => data.json())
-            .then(result => totalLikes.innerHTML = result)
+                .then(result => totalLikes.innerHTML = result)
         }
 
 
@@ -86,9 +135,9 @@
                     'Content-Type': 'application/json',
                     'Accept': '*/*'
                 },
-                body: JSON.stringify({ 
-                    BlogPostId: '@Model.Id', 
-                    userId: '@userManager.GetUserId(User)' 
+                body: JSON.stringify({
+                    BlogPostId: '@Model.Id',
+                    userId: '@userManager.GetUserId(User)'
                 })
             }).then(() => {
                 btnLike.innerHTML = '<i class="bi bi-hand-thumbs-up-fill"></i>';
