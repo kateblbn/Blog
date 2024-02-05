@@ -35,7 +35,7 @@ namespace Blog.web.Controllers
                 var roleIdentityResult = await userManager.AddToRoleAsync(identityUser, "User");
                 if (roleIdentityResult.Succeeded)
                 {
-                    return RedirectToAction("Register");
+                    return RedirectToAction("Index", "Home");
                 }
             }
             return View();

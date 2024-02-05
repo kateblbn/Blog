@@ -22,12 +22,12 @@ namespace Blog.web
             builder.Services.Configure<IdentityOptions>(options =>
             {
                 //Default settings
-                options.Password.RequireDigit = true;
+                //options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = true;
-                options.Password.RequireUppercase = true;
+                //options.Password.RequireUppercase = true;
                 options.Password.RequireNonAlphanumeric = true;
-                options.Password.RequiredUniqueChars = 1;
-                options.Password.RequiredLength = 6;
+                //options.Password.RequiredUniqueChars = 1;
+                //options.Password.RequiredLength = 6;
             });
 
             builder.Services.AddScoped<Repositories.ITagRepository, TagRepository>();
@@ -35,6 +35,7 @@ namespace Blog.web
             builder.Services.AddScoped<Repositories.IImageRepository, CloudinaryImageRepository>();
             builder.Services.AddScoped<Repositories.IBlogPostLikeRepository, BlogPostLikeRepository>();
             builder.Services.AddScoped<Repositories.IBlogPostCommentRepository, BlogPostCommentRepository>();
+            builder.Services.AddScoped<Repositories.IUserRepository, UserRepository>();
 
             var app = builder.Build();
 

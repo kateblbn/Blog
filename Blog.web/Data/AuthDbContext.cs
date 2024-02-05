@@ -47,7 +47,7 @@ namespace Blog.web.Data
             builder.Entity<IdentityRole>().HasData(roles);
 
             //Seed SuperAdminUser
-            var superAdminId = "4cacca7d-f5a4-4472-a1ee-d2dc73fa5e31\r\n";
+            var superAdminId = "4cacca7d-f5a4-4472-a1ee-d2dc73fa5e31";
             var superAdminUser = new IdentityUser
             {
                 UserName = "superadmin@blog.com",
