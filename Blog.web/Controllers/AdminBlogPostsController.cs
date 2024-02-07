@@ -35,36 +35,39 @@ namespace Blog.web.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(AddBlogPostRequest addBlogPostRequest)
         {
-            //Map view model to domain model
-            var blogPost = new BlogPost
-            {
-                Heading = addBlogPostRequest.Heading,
-                PageTitle = addBlogPostRequest.PageTitle,
-                Content = addBlogPostRequest.Content,
-                ShortDescription = addBlogPostRequest.ShortDescription,
-                FeaturedImageUrl = addBlogPostRequest.FeaturedImageUrl,
-                UrlHandle = addBlogPostRequest.UrlHandle,
-                PublishedDate = addBlogPostRequest.PublishedDate,
-                Author = addBlogPostRequest.Author,
-                Visible = addBlogPostRequest.Visible
-            };
-            //Map tags from selected tags
-            var selectedTags = new List<Tag>();
-            foreach (var selectedTagId in addBlogPostRequest.SelectedTags)
-            {
-                var selectedTagIdGuid = Guid.Parse(selectedTagId);
-                var existingTag = await tagRepository.GetAsync(selectedTagIdGuid);
-                if (existingTag != null)
+                //Map view model to domain model
+                var blogPost = new BlogPost
                 {
-                    selectedTags.Add(existingTag);
+                    Heading = addBlogPostRequest.Heading,
+                    PageTitle = addBlogPostRequest.PageTitle,
+                    Content = addBlogPostRequest.Content,
+                    ShortDescription = addBlogPostRequest.ShortDescription,
+                    FeaturedImageUrl = addBlogPostRequest.FeaturedImageUrl,
+                    UrlHandle = addBlogPostRequest.UrlHandle,
+                    PublishedDate = addBlogPostRequest.PublishedDate,
+                    Author = addBlogPostRequest.Author,
+                    Visible = addBlogPostRequest.Visible
+                };
+                //Map tags from selected tags
+                var selectedTags = new List<Tag>();
+                foreach (var selectedTagId in addBlogPostRequest.SelectedTags)
+                {
+                    var selectedTagIdGuid = Guid.Parse(selectedTagId);
+                    var existingTag = await tagRepository.GetAsync(selectedTagIdGuid);
+                    if (existingTag != null)
+                    {
+                        selectedTags.Add(existingTag);
+                    }
                 }
-            }
-            //Mapping tags back to domain model
-            blogPost.Tags = selectedTags;
+                //Mapping tags back to domain model
+                blogPost.Tags = selectedTags;
 
 
-            await blogPostRepository.AddAsync(blogPost);
-            return RedirectToAction("List");
+                await blogPostRepository.AddAsync(blogPost);
+                return RedirectToAction("List");
+
+            //return View();
+
         }
 
         [HttpGet]

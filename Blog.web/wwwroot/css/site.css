@@ -17,10 +17,36 @@ html {
   min-height: 100%;
 }
 
+img {
+    width: 100%;
+}
 body {
   margin-bottom: 60px;
 }
 
 .blog-details-content img {
     max-width: 100%;
+}
+
+.title {
+    text-align: center;
+}
+
+.about__center {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.about__descr {
+    font-size: 23px;
+}
+
+.about__img {
+    width: 200px;
+}
+
+.about__descr {
+    text-align: center;
 }

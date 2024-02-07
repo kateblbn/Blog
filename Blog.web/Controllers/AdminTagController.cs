@@ -30,6 +30,11 @@ namespace Blog.web.Controllers
         [ActionName("Add")]
         public async Task<IActionResult> Add(AddTagRequest addTagRequest)
         {
+            ValidateAddTagRequest(addTagRequest);
+            if (ModelState.IsValid == false)
+            {
+                return View();
+            }
             //Mapping AddTagRequest to Tag domain model
             var tag = new Tag
             {
@@ -39,6 +44,7 @@ namespace Blog.web.Controllers
             await tagRepository.AddAsync(tag);
             return RedirectToAction("List");
         }
+
         [HttpGet]
         [ActionName("List")]
         public async Task<IActionResult> List()
@@ -47,6 +53,7 @@ namespace Blog.web.Controllers
             var tags = await tagRepository.GetAllAsync();
             return View(tags);
         }
+
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
@@ -79,6 +86,7 @@ namespace Blog.web.Controllers
             if (updatedTeg != null)
             {
                 //success
+                return RedirectToAction("List");
             } 
             return RedirectToAction("Edit", new { id = editTagRequest.Id });
 
@@ -93,5 +101,18 @@ namespace Blog.web.Controllers
             }
             return RedirectToAction("Edit", new { id = editTagRequest.Id });
         }
+
+        private void ValidateAddTagRequest(AddTagRequest addTagRequest)
+        {
+            if (addTagRequest.Name is not null && addTagRequest.DisplayName is not null)
+            {
+                if (addTagRequest.Name == addTagRequest.DisplayName)
+                {
+                    ModelState.AddModelError("DisplayName", "Name can not be the same as DisplayName");
+                }
+            }
+        }
+
+
     }
 }

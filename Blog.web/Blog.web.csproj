@@ -29,6 +29,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Views\About\About.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Views\About\About.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CloudinaryDotNet" Version="1.25.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.15" />

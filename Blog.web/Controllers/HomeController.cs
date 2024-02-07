@@ -3,6 +3,7 @@ using Blog.web.Models.ViewModel;
 using Blog.web.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Blog.web.Controllers
 {
@@ -29,6 +30,10 @@ namespace Blog.web.Controllers
         }
 
         public IActionResult Privacy()
+        {
+            return View();
+        }
+        public IActionResult About()
         {
             return View();
         }

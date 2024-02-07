@@ -6,8 +6,10 @@
 <div class="container col-xxl-8 px-4 py-5">
     <div class="row align-items-center g-5 py-5">
         <div class="col-12 col-lg-6">
-            <h1 class="display-5 fw-bold lh-1 mb-3"> Blog</h1>
-            <p class="lead">Blog about something. Maybe about nature.</p>
+            <h1 class="display-5 fw-bold lh-1 mb-3"> Nature's Blog</h1>
+            <p class="lead">
+                A log of natural events, natural history and nature-based philosophy
+            </p>
         </div>
         <div class="col-12 col-lg-6">
             <img src="https://images.pexels.com/photos/1028225/pexels-photo-1028225.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="nature" class="d-block mx-lg-auto img-fluid" width="300" />
@@ -17,12 +19,12 @@
 
 <div class=" container">
     <div class="row justify-content-center">
-        <div class="col-6 d-flex">
-            @if(Model != null && Model.Tags.Any())
+        <div class="col-11 d-flex  flex-wrap">
+            @if (Model != null && Model.Tags.Any())
             {
                 foreach (var tag in Model.Tags)
                 {
-                    <span class="badge bg-dark me-1">@tag.Name</span>
+                    <span class="badge bg-dark me-1 mb-1">@tag.Name</span>
                 }
             }
         </div>
@@ -31,7 +33,7 @@
 
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-6">
+        <div class="col-10">
             @if (Model != null && Model.BlogPosts.Any())
             {
                 foreach (var blogPost in Model.BlogPosts)
@@ -48,7 +50,7 @@
 
                         </p>
                         <p class="mb-5">@blogPost.ShortDescription</p>
-                        <a class="btn btn-dark" asp-area="" asp-controller="Blogs" asp-action="Index" asp-route-urlHandle="@blogPost.UrlHandle" >Read More</a>
+                        <a class="btn btn-dark" asp-area="" asp-controller="Blogs" asp-action="Index" asp-route-urlHandle="@blogPost.UrlHandle">Read More</a>
                     </div>
                 }
             }

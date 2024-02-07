@@ -15,27 +15,31 @@ namespace Blog.web.Controllers
             this.userManager = userManager;
             this.signInManager = signInManager;
         }
+
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel registerViewModel) 
+        public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
-            var identityUser = new IdentityUser
+            if (ModelState.IsValid)
             {
-                UserName = registerViewModel.Username,
-                Email = registerViewModel.Email
-            };
-            var identityResult = await userManager.CreateAsync(identityUser, registerViewModel.Password);
-            if (identityResult.Succeeded)
-            {
-                //add this user "User" role
-                var roleIdentityResult = await userManager.AddToRoleAsync(identityUser, "User");
-                if (roleIdentityResult.Succeeded)
+                var identityUser = new IdentityUser
                 {
-                    return RedirectToAction("Index", "Home");
+                    UserName = registerViewModel.Username,
+                    Email = registerViewModel.Email
+                };
+                var identityResult = await userManager.CreateAsync(identityUser, registerViewModel.Password);
+                if (identityResult.Succeeded)
+                {
+                    //add this user "User" role
+                    var roleIdentityResult = await userManager.AddToRoleAsync(identityUser, "User");
+                    if (roleIdentityResult.Succeeded)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
             }
             return View();
@@ -44,25 +48,31 @@ namespace Blog.web.Controllers
         [HttpGet]
         public IActionResult Login(string ReturnUrl)
         {
-            var model = new LoginViewModel 
-            { 
-                ReturnUrl = ReturnUrl 
+            var model = new LoginViewModel
+            {
+                ReturnUrl = ReturnUrl
             };
             return View(model);
         }
+
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel loginViewModel)
         {
-           var signInResult = await signInManager.PasswordSignInAsync(loginViewModel.Username, 
-               loginViewModel.Password, false, false);
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            var signInResult = await signInManager.PasswordSignInAsync(loginViewModel.Username,
+                        loginViewModel.Password, false, false);
             if (signInResult.Succeeded)
             {
-                if(!string.IsNullOrWhiteSpace(loginViewModel.ReturnUrl))
+                if (!string.IsNullOrWhiteSpace(loginViewModel.ReturnUrl))
                 {
                     return Redirect(loginViewModel.ReturnUrl);
                 }
                 return RedirectToAction("Index", "Home");
             }
+
             return View();
         }
         [HttpGet]
